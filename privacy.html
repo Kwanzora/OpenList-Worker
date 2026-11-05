@@ -11,13 +11,16 @@
 <h1>OpenList-Drive 隐私政策</h1>
 <p>本政策适用于部署者本人使用的 OpenList-Drive 文件同步服务。</p>
 <h2>访问与用途</h2>
-<p>部署者通过 Google OAuth 授权访问 Google Drive。OpenList 使用授予的权限列出、读取和写入同步所需的文件与文件夹。实际授权范围以 Google 授权页面为准。同步目录由部署者在 OpenList 中配置。</p>
+<p>部署者通过 Google OAuth 授权 OpenList-Drive 访问自己的 Google Drive，用于个人文件同步和管理。处理的数据包括文件及文件夹名称、标识符、类型、大小、修改时间，以及同步、上传或下载所需的文件内容。操作受 Google 实际授予的权限限制；OpenList 中设置的同步目录不等同于 OAuth 权限范围。</p>
 <h2>处理与保存</h2>
-<p>饭耳通过 WebDAV 提交的文件由 OpenList 处理，保存至部署者自己的 Google Drive。Cloudflare Workers 提供运行环境。初次连接或重新授权时，OpenList 官方授权服务处理 OAuth 回调。OpenList 在其存储配置中保存刷新令牌，以维持与 Google Drive 的连接。服务提供商可能按各自的服务设置处理请求和诊断日志。</p>
+<p>饭耳通过 WebDAV 提交的文件由运行在 Cloudflare Workers 上的 OpenList 处理，并保存至部署者自己的 Google Drive。初次授权使用 api.oplist.org 提供的授权工具，其回调地址为 https://api.oplist.org/googleui/callback。</p>
+<p>本部署使用自己的 Google OAuth 客户端，并关闭在线 API 中转。运行期间，OpenList 使用保存的刷新令牌直接向 Google 官方 OAuth 服务申请访问令牌，再调用 Google Drive API。授权信息保存在 OpenList 的存储配置中；目录元数据按部署的缓存设置用于缓存。</p>
 <h2>数据使用限制</h2>
 <p>Google 用户数据用于文件同步和相关故障排查。本部署不出售这些数据，也不将其用于广告或训练通用人工智能模型。本应用使用和传输从 Google API 获得的信息时，遵守 <a href="https://developers.google.com/terms/api-services-user-data-policy#limited-use">Google API 服务用户数据政策</a>，包括其中的 Limited Use（有限使用）要求。</p>
 <h2>撤销授权与删除</h2>
-<p>部署者可以在 <a href="https://myaccount.google.com/connections">Google 账号的第三方连接页面</a>撤销授权，并在 OpenList 中移除对应存储配置。已经同步的文件保留在 Google Drive，可在网盘中单独删除。撤销授权不会自动删除这些文件。</p>
+<p>部署者可以在 <a href="https://myaccount.google.com/connections">Google 账号的第三方连接页面</a>撤销访问授权。若停止使用本服务，还应在 OpenList 管理后台删除对应存储挂载。删除挂载会移除该挂载的配置记录，并触发相关缓存清理；撤销授权或删除挂载均不会自动删除 Google Drive 中已保存的文件。需要删除这些文件时，应在 Google Drive 中另行删除。</p>
+<h2>保留期限与保护措施的说明</h2>
+<p>目录缓存的具体期限取决于部署设置。当前尚未完成对线上缓存、诊断日志、备份及第三方授权工具的数据保留与删除规则的核实，也未完成对授权信息存储保护措施的核实。因此，本政策不承诺所有副本会在撤销授权或删除挂载后立即清除，也不作未经核实的应用层加密保证。</p>
 <h2>联系</h2>
 <p>如有疑问，请通过 Google OAuth 同意页面所列的支持邮箱联系部署者。</p>
 </main>
